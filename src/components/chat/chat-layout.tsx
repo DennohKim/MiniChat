@@ -24,30 +24,28 @@ export function ChatLayout({
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
   const [isMobile, setIsMobile] = useState(false);
 
-  
-useEffect(() => {
-  const checkScreenWidth = () => {
+  useEffect(() => {
+    const checkScreenWidth = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth <= 768);
+      }
+    };
+
+    // Initial check
+    checkScreenWidth();
+
+    // Event listener for screen width changes
     if (typeof window !== 'undefined') {
-      setIsMobile(window.innerWidth <= 768);
+      window.addEventListener('resize', checkScreenWidth);
     }
-  };
 
-  // Initial check
-  checkScreenWidth();
-
-  // Event listener for screen width changes
-  if (typeof window !== 'undefined') {
-    window.addEventListener('resize', checkScreenWidth);
-  }
-
-  // Cleanup the event listener on component unmount
-  return () => {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', checkScreenWidth);
-    }
-  };
-}, []);
-
+    // Cleanup the event listener on component unmount
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', checkScreenWidth);
+      }
+    };
+  }, []);
 
   return (
     <ResizablePanelGroup

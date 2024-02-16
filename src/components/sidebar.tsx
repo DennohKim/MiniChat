@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { MoreHorizontal, SquarePen } from 'lucide-react';
 import { cn, getLatestMessage, shortAddress } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
