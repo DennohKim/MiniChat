@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/components/ui/resizable";
-import { cn } from "@/lib/utils";
-import { Sidebar } from "../sidebar";
-import { Chat } from "./chat";
+} from '@/components/ui/resizable';
+import { cn } from '@/lib/utils';
+import { Sidebar } from '../sidebar';
+import { Chat } from './chat';
 
 interface ChatLayoutProps {
   defaultLayout: number[] | undefined;
@@ -24,32 +24,40 @@ export function ChatLayout({
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
   const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const checkScreenWidth = () => {
+  
+useEffect(() => {
+  const checkScreenWidth = () => {
+    if (typeof window !== 'undefined') {
       setIsMobile(window.innerWidth <= 768);
-    };
+    }
+  };
 
-    // Initial check
-    checkScreenWidth();
+  // Initial check
+  checkScreenWidth();
 
-    // Event listener for screen width changes
-    window.addEventListener("resize", checkScreenWidth);
+  // Event listener for screen width changes
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', checkScreenWidth);
+  }
 
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", checkScreenWidth);
-    };
-  }, []);
+  // Cleanup the event listener on component unmount
+  return () => {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', checkScreenWidth);
+    }
+  };
+}, []);
+
 
   return (
     <ResizablePanelGroup
-      direction="horizontal"
+      direction='horizontal'
       onLayout={(sizes: number[]) => {
         document.cookie = `react-resizable-panels:layout=${JSON.stringify(
           sizes
         )}`;
       }}
-      className="h-full items-stretch"
+      className='h-full items-stretch'
     >
       <ResizablePanel
         defaultSize={defaultLayout[0]}
@@ -70,19 +78,15 @@ export function ChatLayout({
           )}`;
         }}
         className={cn(
-          isCollapsed && "min-w-[50px] md:min-w-[70px] transition-all duration-300 ease-in-out"
+          isCollapsed &&
+            'min-w-[50px] md:min-w-[70px] transition-all duration-300 ease-in-out'
         )}
       >
-        <Sidebar
-          isCollapsed={isCollapsed || isMobile}
-          isMobile={isMobile}
-        />
+        <Sidebar isCollapsed={isCollapsed || isMobile} isMobile={isMobile} />
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
-        <Chat
-         
-        />
+        <Chat />
       </ResizablePanel>
     </ResizablePanelGroup>
   );
