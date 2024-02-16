@@ -37,7 +37,11 @@ export const WalletContextProvider = ({ children }: {children: React.ReactNode})
   const [linkToSend, setLinkToSend] = useState();
 
  const connectMiniPay = async () => {
-   if (window.ethereum && window.ethereum.isMiniPay) {
+   if (
+     typeof window !== 'undefined' &&
+     window.ethereum &&
+     window.ethereum.isMiniPay
+   ) {
      const provider = new ethers.providers.Web3Provider(window.ethereum);
      const signer = provider.getSigner();
      setSigner(signer); // setSigner expects a JsonRpcSigner or null
