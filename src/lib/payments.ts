@@ -12,7 +12,8 @@ export const sendCusd = async (_amount: any, _receiver: string) => {
   console.log('CUSD Amt =' + _amount);
 
   console.log('ReC = ' + _receiver);
-  const tokenAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'; //CUSDC Token Address
+  //   const tokenAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'; //cUSD Alfajores
+  const tokenAddress = '0x765DE816845861e75A25fCA122bb6898B8B1282a';
   const tokenContract = new ethers.Contract(tokenAddress, cusdAbi, signer);
   await tokenContract.approve(account, _amount);
   const writen = await tokenContract.transfer(
