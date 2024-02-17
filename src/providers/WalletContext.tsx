@@ -36,27 +36,45 @@ export const WalletContextProvider = ({ children }: {children: React.ReactNode})
   const [selectedConvo, setSelectedConvo] = useState(null);
   const [linkToSend, setLinkToSend] = useState();
 
- const connectMiniPay = async () => {
-   if (
-     typeof window !== 'undefined' &&
-     window.ethereum &&
-     window.ethereum.isMiniPay
-   ) {
-     const provider = new ethers.providers.Web3Provider(window.ethereum);
-     const signer = provider.getSigner();
-     setSigner(signer); // setSigner expects a JsonRpcSigner or null
-     const address = await signer.getAddress(); // getAddress returns a Promise<string>
-     setWalletAddress(address); // setWalletAddress expects a string or null
-   } else {
-     console.error('MiniPay provider not detected');
-   }
- };
-
+  const connectMiniPay = async () => {
+    if (
+      typeof window !== 'undefined' &&
+      window.ethereum &&
+      window.ethereum.isMiniPay
+    ) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      setSigner(signer); // setSigner expects a JsonRpcSigner or null
+      const address = await signer.getAddress(); // getAddress returns a Promise<string>
+      setWalletAddress(address); // setWalletAddress expects a string or null
+    } else {
+      console.error('MiniPay provider not detected');
+    }
+  };
 
   // Call connectMiniPay when the component mounts
   useEffect(() => {
     connectMiniPay();
   }, []);
+
+  // Provider options for Web3Modal
+  const providerOptions = {
+    // Additional provider options go here
+  };
+  
+  // Instantiate Web3Modal with the provider options
+  const web3Modal = new Web3Modal({
+    cacheProvider: true,
+    providerOptions,
+  });
+
+  // Function to disconnect wallet
+  const disconnectWallet = () => {
+    if (typeof window !== 'undefined') {
+      setWalletAddress(null);
+      setSigner(null);
+    }
+  };
 
   // Function to connect to the modal
   const connectWallet = async () => {
@@ -82,23 +100,6 @@ export const WalletContextProvider = ({ children }: {children: React.ReactNode})
       console.error('Failed to connect wallet: ', err);
     }
   };
-
-  // Function to disconnect wallet
-  const disconnectWallet = () => {
-    setWalletAddress(null);
-    setSigner(null);
-  };
-
-  // Provider options for Web3Modal
-  const providerOptions = {
-    // Additional provider options go here
-  };
-
-  // Instantiate Web3Modal with the provider options
-  const web3Modal = new Web3Modal({
-    cacheProvider: true,
-    providerOptions,
-  });
 
   return (
     <WalletContext.Provider

@@ -1,3 +1,4 @@
+
 import { cookies } from 'next/headers';
 import { ChatLayout } from '@/components/chat/chat-layout';
 import ConnectWallet from '@/components/connect-wallet';
