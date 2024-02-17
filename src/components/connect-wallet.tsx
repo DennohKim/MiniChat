@@ -8,10 +8,10 @@ import React, { useContext } from 'react';
 
 const ConnectWallet = () => {
   const { connectWallet, walletAddress, signer } = useContext(WalletContext);
-const [ providerState ] = useContext(XmtpContext) as [
-  any,
-  React.Dispatch<React.SetStateAction<any>>
-];
+  const [providerState] = useContext(XmtpContext) as [
+    any,
+    React.Dispatch<React.SetStateAction<any>>
+  ];
 
   return (
     <div className='flex justify-center items-center text-sm px-2 md:text-md md:space-y-0 md:space-x-4 cursor-pointer border py-3 rounded-lg'>
@@ -34,7 +34,8 @@ const [ providerState ] = useContext(XmtpContext) as [
           className='flex justify-center items-center'
           onClick={connectWallet}
         >
-          {!window.ethereum || !window.ethereum.isMetaMask
+          {(typeof window !== 'undefined' && !window.ethereum) ||
+          !window.ethereum.isMetaMask
             ? 'Install MetaMask'
             : 'Connect wallet'}
         </span>

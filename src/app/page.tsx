@@ -8,11 +8,9 @@ export default function Home() {
   const defaultLayout = layout ? JSON.parse(layout.value) : undefined;
 
   return (
-    <main className='flex h-screen flex-col items-center justify-center p-4 md:px-24 pb-24 pt-16 space-y-8 gap-4'>
+    <main className='flex h-screen flex-col items-center justify-center p-4 md:px-24 pb-10 pt-6 md:pb-10 md:pt-10 space-y-8 gap-4'>
       <div className='flex justify-between w-full items-center pb-6'>
-        <p className='text-4xl font-bold text-black'>
-          MiniChat
-        </p>
+        <p className='text-4xl font-bold text-black'>MiniChat</p>
         <ConnectWallet />
       </div>
 
